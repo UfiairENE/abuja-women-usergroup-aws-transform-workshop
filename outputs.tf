@@ -4,6 +4,3 @@ output "reader_endpoint" { value = aws_rds_cluster.main.reader_endpoint }
 output "secret_arn" { value = aws_rds_cluster.main.master_user_secret[0].secret_arn }
 output "client_sg_id" { value = aws_security_group.client.id }
 output "ssm_client_instance_id" { value = var.enable_ssm_client ? aws_instance.ssm_client[0].id : null }
-output "source_endpoint" { value = var.enable_data_migration ? aws_db_instance.source[0].address : null }
-output "source_secret_arn" { value = var.enable_data_migration ? aws_db_instance.source[0].master_user_secret[0].secret_arn : null }
-output "dms_task_arn" { value = var.enable_data_migration ? aws_dms_replication_task.main[0].replication_task_arn : null }

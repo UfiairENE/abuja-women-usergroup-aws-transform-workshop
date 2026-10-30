@@ -30,8 +30,9 @@ is an agentic AI service that modernizes Windows workloads. For SQL Server it au
 - migrating data with AWS DMS
 - transforming the associated .NET application code
 
-This workshop covers the first two: assessment and schema conversion. It does not move data
-or touch application code.
+This workshop covers the first two: assessment and schema conversion. It then loads one row
+of data with a small script. It does not use DMS or touch application code. See "What we cover
+today" below.
 
 ## 3. What happens in the workshop
 
@@ -53,8 +54,26 @@ or touch application code.
 5. **Review:** you read the validation reports and the converted SQL. Database Mail has no
    PostgreSQL equivalent, so Transform leaves that procedure as an `UNCONVERTIBLE` stub for a
    person to rewrite.
-6. **Load:** you run the converted SQL against the Aurora cluster in this stack (section 6).
-   Transform can also build and deploy to its own cluster, but this workshop does not use that.
+6. **Load:** you run the converted SQL against the Aurora cluster in this stack (section 6),
+   then load one row of data with a small script. Transform can also build and deploy to its
+   own cluster, but this workshop does not use that.
+
+### What we cover today
+
+- The original SQL Server table failing on PostgreSQL, and why migrations are hard.
+- Building the target with Terraform: a private, encrypted Aurora PostgreSQL cluster.
+- AWS Transform: assessing the database, steering the plan, converting the schema and the
+  stored procedure, and reading its validation reports.
+- Loading the converted schema into Aurora and checking it with `psql`.
+- Loading one row of data with a script.
+
+### What we do not cover today
+
+- Moving real data at scale. You would use AWS DMS for that, and we do not run it.
+- Transforming .NET application code.
+- Letting Transform provision and deploy its own cluster. We switch that off in the plan.
+- Running Transform's extraction script against a live SQL Server.
+- Rewriting the email procedure with Amazon SES or SNS. Transform leaves it as a stub.
 
 ## 4. What this Terraform creates
 
@@ -169,8 +188,16 @@ instance you reach with Session Manager (no SSH, no public IP, no internet).
    `fullname` is `varchar(100)`, `email` is `varchar(255)`, `isactive` is a `boolean` defaulting
    to `true`, and `pk_customer` is the primary key.
 
-**Not covered here:** moving data from SQL Server, and application code. Transform can help
-with both, but this workshop stops at the schema.
+11. Load the one row of data. Paste
+    [sample-ddl/RetailDemo-data.sql](sample-ddl/RetailDemo-data.sql), then:
+    ```
+    SELECT * FROM retaildemo_sales.customer;
+    ```
+    You should see one row: `customerid` 1 and `isactive` as `t`. The `customerid` filled itself
+    in, which is the identity column Transform converted.
+
+**Not covered here:** moving real data at scale with AWS DMS, and application code. See
+"What we do not cover today" above.
 
 ## 7. Teardown
 

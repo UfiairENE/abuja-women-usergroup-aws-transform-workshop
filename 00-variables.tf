@@ -50,16 +50,3 @@ variable "enable_ssm_client" {
   default     = false
   description = "Create a small private instance reachable with Session Manager, for running psql against Aurora"
 }
-
-# ── Optional data migration (SQL Server source + AWS DMS) ────────────────────
-variable "enable_data_migration" {
-  type        = bool
-  default     = false
-  description = "Create a small SQL Server source and an AWS DMS task that copies its data into Aurora"
-}
-
-variable "source_allowed_cidr" {
-  type        = string
-  default     = ""
-  description = "Your public IP as a /32 (for example 203.0.113.10/32). Only this address can reach the SQL Server source"
-}
