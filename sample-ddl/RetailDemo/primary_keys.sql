@@ -1,0 +1,2 @@
+ALTER TABLE [sales].[Customer] ADD CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED ([CustomerId] ASC);
+GO

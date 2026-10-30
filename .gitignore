@@ -1,0 +1,7 @@
+.terraform/
+*.tfstate*
+*.tfvars
+!example.tfvars
+.tfc.env
+# local working files, not part of the workshop repo
+slides/
