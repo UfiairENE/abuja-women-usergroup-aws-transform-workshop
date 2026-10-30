@@ -70,7 +70,6 @@ AWS DMS. See "What we cover today" below.
 ### What we do not cover today
 
 - Moving the data. With the schema now in Aurora, that is the next step, and AWS DMS does it.
-  We do not run it.
 - Transforming .NET application code.
 - Letting Transform provision and deploy its own cluster. We switch that off in the plan.
 - Running Transform's extraction script against a live SQL Server.
