@@ -1,7 +1,10 @@
-# SQL Server → Aurora PostgreSQL workshop target
+# Migrating SQL Server to Aurora PostgreSQL with AWS Transform: Part 1
 
 Terraform for a private, KMS-encrypted, multi-AZ Aurora PostgreSQL cluster (the migration
 target), plus an optional small private instance for loading the converted schema into it.
+
+**Part 1 (this workshop)** takes the schema across: assess, convert and load it with AWS
+Transform. **Part 2**, in a separate session, moves the data into that schema with AWS DMS.
 
 ## 1. The problem: moving off SQL Server
 
@@ -31,8 +34,7 @@ is an agentic AI service that modernizes Windows workloads. For SQL Server it au
 - transforming the associated .NET application code
 
 This workshop covers the first two: assessment and schema conversion. It does not move data
-or touch application code. Once the schema is converted and loaded, the data can move with
-AWS DMS. See "What we cover today" below.
+or touch application code. Moving the data is Part 2. See "What we cover today" below.
 
 ## 3. What happens in the workshop
 
@@ -55,10 +57,10 @@ AWS DMS. See "What we cover today" below.
    PostgreSQL equivalent, so Transform leaves that procedure as an `UNCONVERTIBLE` stub for a
    person to rewrite.
 6. **Load:** you run the converted SQL against the Aurora cluster in this stack (section 6).
-   With the schema in place, the data can move with AWS DMS. Transform can also build and deploy
-   to its own cluster, but this workshop does not use that.
+   With the schema in place, the data moves in Part 2 with AWS DMS. Transform can also build and
+   deploy to its own cluster, but this workshop does not use that.
 
-### What we cover today
+### What we cover today (Part 1)
 
 - The original SQL Server table failing on PostgreSQL, and why migrations are hard.
 - Building the target with Terraform: a private, encrypted Aurora PostgreSQL cluster.
@@ -67,9 +69,9 @@ AWS DMS. See "What we cover today" below.
 - Reading what it could not convert: the email procedure, left as a stub.
 - Loading the converted schema into Aurora and checking it with `psql`.
 
-### What we do not cover today
+### What we do not cover today (Part 2 and beyond)
 
-- Moving the data. With the schema now in Aurora, that is the next step, and AWS DMS does it.
+- Moving the data. That is Part 2, with AWS DMS, into the schema we load today.
 - Transforming .NET application code.
 - Letting Transform provision and deploy its own cluster. We switch that off in the plan.
 - Running Transform's extraction script against a live SQL Server.
@@ -188,7 +190,7 @@ instance you reach with Session Manager (no SSH, no public IP, no internet).
    `fullname` is `varchar(100)`, `email` is `varchar(255)`, `isactive` is a `boolean` defaulting
    to `true`, and `pk_customer` is the primary key.
 
-**Not covered here:** moving the data, which AWS DMS can now do into this schema, and
+**Not covered here:** moving the data (Part 2, with AWS DMS) and
 application code. See "What we do not cover today" above.
 
 ## 7. Teardown
