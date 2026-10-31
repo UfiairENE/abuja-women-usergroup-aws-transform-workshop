@@ -53,3 +53,11 @@ resource "aws_iam_role_policy_attachment" "workshop" {
 output "role_arn" {
   value = aws_iam_role.workshop.arn
 }
+
+# Paste these two into the Terraform Cloud workspace as environment variables (not Terraform variables).
+output "tfc_environment_variables" {
+  value = {
+    TFC_AWS_PROVIDER_AUTH = "true"
+    TFC_AWS_RUN_ROLE_ARN  = aws_iam_role.workshop.arn
+  }
+}

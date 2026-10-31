@@ -130,12 +130,15 @@ can create IAM roles.
    terraform apply
    ```
    Review the plan. It creates one IAM role, `tfc-oidc-workshop`, with
-   `AdministratorAccess`, trusted only by your org and workspace. Copy the `role_arn` output.
+   `AdministratorAccess`, trusted only by your org and workspace. The apply prints `tfc_environment_variables`:
+   two name and value pairs you paste in step 8.
    Keep `bootstrap/terraform.tfstate`: you need it to tear down.
 7. **Remove the bootstrap credentials.** Delete the access key in the AWS console and run
    `unset AWS_PROFILE`.
 8. **Set two environment variables** (not Terraform variables) in the Terraform Cloud
-   workspace: `TFC_AWS_PROVIDER_AUTH=true` and `TFC_AWS_RUN_ROLE_ARN=<role_arn>`.
+   workspace. Copy both from the `tfc_environment_variables` output of the previous step:
+   `TFC_AWS_PROVIDER_AUTH` and `TFC_AWS_RUN_ROLE_ARN`. Run `terraform output` in `bootstrap/`
+   to see them again.
 9. **Deploy.** `terraform login`, then `just workshop` (or
    `terraform init && terraform apply -var-file=workshop.tfvars`). The first run
    asks to set up the workspace state. Answer `yes`.
